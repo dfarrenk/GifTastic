@@ -3,9 +3,8 @@ for (let i in topics) {
     $('#button-container').append($('<button>').attr('value', topics[i]).text(topics[i]).attr('class', 'giphy'));
 }
 
-var rob;
-
 var url = 'https://api.giphy.com/v1/gifs/search';
+
 var param = {
     api_key: 'U6rxccdkNVQX1ZRq9R4UzyXzbWYaZSBC',
     limit: '10',
@@ -13,7 +12,7 @@ var param = {
 };
 
 $('#add-button').click(function(event) {
-    event.preventDefault();
+    event.preventDefault(); //prevent page refresh on form submission
     var input = $("#button-input").val().trim();
     var newButton = $('<button>');
     newButton.text(input)
@@ -25,21 +24,19 @@ $('#add-button').click(function(event) {
 $(document).click(function(event) {
     if ($(event.target).is('button')) {
         param.q = $(event.target).val();
-        url += "?" + $.param(param);
+        url += "?" + $.param(param); //jQuery's .param() will convert an object into a series of "key=value" strings, perfect for an API call.
         $.ajax({
             url: url,
             method: 'GET'
         }).done(function(result) {
-            rob = result;
+            //console.log(JSON.stringify(result));
             $('#giphy-container').empty();
             $("#giphy-container").append($("<div class='container'>"));
             for (let i = 0; i < param.limit; i++) {
                 if (param.limit % 4 === 0) {
                     $("#giphy-container div").append($("<div class='row'>"));
                 }
-                var target = $("#giphy-container div div:last-child");
-                console.log(target);
-
+                var target = $("#giphy-container div div:last-child"); //The last row div in the container
 
                 var newDiv = $('<div class="col-sm-4">');
                 var newImage = $('<img>');
